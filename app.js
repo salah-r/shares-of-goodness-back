@@ -29,19 +29,7 @@ const allowedOrigins = [
 ].filter(Boolean);
 
 app.use(cors({
-  origin: (origin, callback) => {
-    console.log("CORS Origin:", origin);
-
-    if (!origin) return callback(null, true);
-
-    if (allowedOrigins.includes(origin) || allowedOrigins.includes('*') || origin.includes('modernhouse.qzz.io')) {
-      return callback(null, true);
-    }
-
-    console.log("Blocked Origin:", origin);
-
-    return callback(new Error('Not allowed by CORS'));
-  },
+  origin: true, // This allows ALL origins by reflecting the requested origin back
   credentials: true
 }));
 
