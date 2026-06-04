@@ -34,7 +34,7 @@ app.use(cors({
 
     if (!origin) return callback(null, true);
 
-    if (allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+    if (allowedOrigins.includes(origin) || allowedOrigins.includes('*') || origin.includes('modernhouse.qzz.io')) {
       return callback(null, true);
     }
 
