@@ -4,6 +4,10 @@ const cors = require('cors');
 const path = require('path');
 const connectDB = require('./config/db');
 const donationRoutes = require('./routes/donationRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+const walletRoutes = require('./routes/walletRoutes');
+const authRoutes = require('./routes/authRoutes');
+const authMiddleware = require('./middleware/authMiddleware');
 
 const helmet = require('helmet');
 
@@ -52,7 +56,12 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // Serve API Routes
+app.use('/api/auth', authRoutes);
 app.use('/api/donations', donationRoutes);
+
+// Protected Admin Routes
+app.use('/api/admins', authMiddleware, adminRoutes);
+app.use('/api/wallets', authMiddleware, walletRoutes);
 
 // Root Check Endpoint
 app.get('/health', (req, res) => {

@@ -16,6 +16,11 @@ const WalletSchema = new mongoose.Schema({
   qrCodeUrl: {
     type: String // Optional stored image file URL
   },
+  adminId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Admin',
+    required: true
+  },
   isPrimary: {
     type: Boolean,
     default: false

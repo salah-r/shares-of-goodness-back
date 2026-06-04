@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const { submitDonation, getDonations, updateDonationStatus } = require('../controllers/donationController');
+const { submitDonation, getDonations, updateDonationStatus, getTopDonors } = require('../controllers/donationController');
+const authMiddleware = require('../middleware/authMiddleware');
 
 // Configure Multer for in-memory file uploads (efficient for serverless/free tiers)
 const upload = multer({
@@ -18,13 +19,16 @@ const upload = multer({
   }
 });
 
+// GET route for top 3 donors
+router.get('/top', getTopDonors);
+
 // POST route for submitting donation with receipt
 router.post('/submit', upload.single('receipt'), submitDonation);
 
 // GET route for listing all donations for admin review
-router.get('/', getDonations);
+router.get('/', authMiddleware, getDonations);
 
 // PATCH route for updating donation status (approve/reject)
-router.patch('/:id/status', updateDonationStatus);
+router.patch('/:id/status', authMiddleware, updateDonationStatus);
 
 module.exports = router;

@@ -189,4 +189,47 @@ async function triggerHybridNotifications(donation, wallet) {
   }
 }
 
-module.exports = { submitDonation, getDonations, updateDonationStatus };
+/**
+ * Fetches the top 3 donors grouped by phone number (excluding anonymous).
+ * Route: GET /api/donations/top
+ */
+async function getTopDonors(req, res) {
+  try {
+    const topDonors = await Donation.aggregate([
+      {
+        $match: {
+          status: 'approved',
+          isAnonymous: false,
+          donorName: { $ne: 'فاعل خير' }
+        }
+      },
+      {
+        $group: {
+          _id: '$phone',
+          donorName: { $first: '$donorName' },
+          totalAmount: { $sum: '$shareAmount' }
+        }
+      },
+      {
+        $sort: { totalAmount: -1 }
+      },
+      {
+        $limit: 3
+      },
+      {
+        $project: {
+          _id: 0,
+          donorName: 1,
+          totalAmount: 1
+        }
+      }
+    ]);
+
+    return res.status(200).json(topDonors);
+  } catch (error) {
+    console.error('Error fetching top donors:', error);
+    return res.status(500).json({ error: 'Internal server error.' });
+  }
+}
+
+module.exports = { submitDonation, getDonations, updateDonationStatus, getTopDonors };
