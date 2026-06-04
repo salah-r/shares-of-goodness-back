@@ -3,7 +3,7 @@ import Wallet from '../models/Wallet.js';
 import { uploadReceipt } from '../services/supabaseService.js';
 import { sendTelegramAlert } from '../services/telegramService.js';
 import { sendPushNotification } from '../services/fcmService.js';
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 import AuditLog from '../models/AuditLog.js';
 import mongoose from 'mongoose';
 

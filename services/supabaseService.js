@@ -30,9 +30,9 @@ const supabase = createClient(
  * @param {string} mimeType - The mime type of the file (e.g. image/jpeg, image/png)
  * @returns {Promise<string>} The public URL of the uploaded image file
  */
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
