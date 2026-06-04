@@ -1,11 +1,14 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const connectDB = require('./config/db');
-const donationRoutes = require('./routes/donationRoutes');
+import 'dotenv/config.js';
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import connectDB from './config/db.js';
+import donationRoutes from './routes/donationRoutes.js';
+import helmet from 'helmet';
+import { fileURLToPath } from 'url';
 
-const helmet = require('helmet');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -74,4 +77,4 @@ app.listen(PORT, () => {
   
 });
 
-module.exports = app;
+export default app;

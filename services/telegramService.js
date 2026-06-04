@@ -1,4 +1,4 @@
-const https = require('https');
+import https from 'https';
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
@@ -59,4 +59,4 @@ function sendTelegramAlert(message) {
   });
 }
 
-module.exports = { sendTelegramAlert };
+export { sendTelegramAlert };

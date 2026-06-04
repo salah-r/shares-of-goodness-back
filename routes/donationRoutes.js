@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const multer = require('multer');
-const { submitDonation, getDonations, updateDonationStatus } = require('../controllers/donationController');
+import multer from 'multer';
+import { submitDonation, getDonations, updateDonationStatus } from '../controllers/donationController.js';
 
 // Configure Multer for in-memory file uploads (efficient for serverless/free tiers)
 const upload = multer({
@@ -27,4 +27,4 @@ router.get('/', getDonations);
 // PATCH route for updating donation status (approve/reject)
 router.patch('/:id/status', updateDonationStatus);
 
-module.exports = router;
+export default router;

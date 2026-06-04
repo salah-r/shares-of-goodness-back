@@ -1,0 +1,9 @@
+{
+  "name": "shares-of-goodness-backend",
+  "version": "1.0.0",
+  "exports": "./app.js",
+  "tasks": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  }
+}

@@ -1,9 +1,11 @@
-const Donation = require('../models/Donation');
-const Wallet = require('../models/Wallet');
-const supabaseService = require('../services/supabaseService');
-const telegramService = require('../services/telegramService');
-const fcmService = require('../services/fcmService');
-const crypto = require('crypto');
+import Donation from '../models/Donation.js';
+import Wallet from '../models/Wallet.js';
+import { uploadReceipt } from '../services/supabaseService.js';
+import { sendTelegramAlert } from '../services/telegramService.js';
+import { sendPushNotification } from '../services/fcmService.js';
+import crypto from 'crypto';
+import AuditLog from '../models/AuditLog.js';
+import mongoose from 'mongoose';
 
 /**
  * Submits a new donation transaction for administrator review
@@ -30,7 +32,7 @@ async function submitDonation(req, res) {
     
     let receiptUrl;
     try {
-      receiptUrl = await supabaseService.uploadReceipt(file.buffer, uniqueFileName, file.mimetype);
+      receiptUrl = await uploadReceipt(file.buffer, uniqueFileName, file.mimetype);
     } catch (uploadError) {
       console.error('Supabase Receipt Upload Error:', uploadError);
       return res.status(500).json({ error: 'Failed to process and store donation receipt. Please try again.' });
@@ -120,8 +122,7 @@ async function updateDonationStatus(req, res) {
 
     // Log the action to AuditLog
     try {
-      const AuditLog = require('../models/AuditLog');
-      const mongoose = require('mongoose');
+      // Imports moved to top of file
       const dummyAdminId = new mongoose.Types.ObjectId('000000000000000000000000');
       
       const log = new AuditLog({
@@ -165,7 +166,7 @@ async function triggerHybridNotifications(donation, wallet) {
 
   // Action 1: Telegram Bot Alert (Instant and reliable admin channels)
   try {
-    await telegramService.sendTelegramAlert(telegramMessage);
+    await sendTelegramAlert(telegramMessage);
     console.log(`Telegram Bot notified for donation ID: ${donation._id}`);
   } catch (error) {
     console.error('Telegram dispatch failed:', error.message);
@@ -173,7 +174,7 @@ async function triggerHybridNotifications(donation, wallet) {
 
   // Action 2: Firebase FCM Alert (Device native notification alerts)
   try {
-    await fcmService.sendPushNotification(
+    await sendPushNotification(
       'تبرع جديد قيد المراجعة 💰',
       `تم استلام تبرع بقيمة ${donation.shareAmount} EGP من ${donation.donorName}`,
       {
@@ -189,4 +190,4 @@ async function triggerHybridNotifications(donation, wallet) {
   }
 }
 
-module.exports = { submitDonation, getDonations, updateDonationStatus };
+export { submitDonation, getDonations, updateDonationStatus };

@@ -1,4 +1,4 @@
-const { createClient } = require('@supabase/supabase-js');
+import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
@@ -8,7 +8,7 @@ if (!supabaseUrl || !supabaseKey) {
   console.warn('⚠️ Supabase credentials missing. Image uploads will fail.');
 }
 
-const ws = require('ws');
+import ws from 'ws';
 
 const supabase = createClient(
   supabaseUrl || 'https://placeholder.supabase.co',
@@ -30,8 +30,12 @@ const supabase = createClient(
  * @param {string} mimeType - The mime type of the file (e.g. image/jpeg, image/png)
  * @returns {Promise<string>} The public URL of the uploaded image file
  */
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 async function uploadReceipt(fileBuffer, fileName, mimeType) {
   const isPlaceholder = !supabaseUrl || 
@@ -91,4 +95,4 @@ function saveLocally(fileBuffer, fileName) {
   return `/uploads/${fileName}`;
 }
 
-module.exports = { uploadReceipt };
+export { uploadReceipt };

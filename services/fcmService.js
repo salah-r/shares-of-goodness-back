@@ -1,4 +1,4 @@
-const admin = require('firebase-admin');
+import admin from 'firebase-admin';
 
 // Load and initialize Firebase Admin using environment configuration
 if (!admin.apps.length) {
@@ -57,4 +57,4 @@ async function sendPushNotification(title, body, data = {}, tokenOrTopic = 'admi
   }
 }
 
-module.exports = { sendPushNotification };
+export { sendPushNotification };
