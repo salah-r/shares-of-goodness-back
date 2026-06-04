@@ -24,7 +24,8 @@ const allowedOrigins = [
   process.env.FRONTEND_URL,
   'http://localhost:4200',
   'http://localhost:3000',
-  'http://127.0.0.1:4200'
+  'http://127.0.0.1:4200',
+  'https://modernhouse.qzz.io',
 ].filter(Boolean);
 
 app.use(cors({
