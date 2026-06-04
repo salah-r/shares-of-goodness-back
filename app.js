@@ -21,21 +21,23 @@ const allowedOrigins = [
   process.env.FRONTEND_URL,
   'http://localhost:4200',
   'http://localhost:3000',
-  'http://127.0.0.1:4200'
+  'http://127.0.0.1:4200',
+  'https://modernhouse.qzz.io'
 ].filter(Boolean);
 
 app.use(cors({
   origin: (origin, callback) => {
-    console.log("CORS Origin:", origin);
-
-    if (!origin) return callback(null, true);
-
-    if (allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+    if (!origin) {
+      console.log("✅ CORS Allowed (No Origin)");
       return callback(null, true);
     }
 
-    console.log("Blocked Origin:", origin);
+    if (allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+      console.log(`✅ CORS Allowed for origin: ${origin}`);
+      return callback(null, true);
+    }
 
+    console.error(`❌ CORS Blocked Origin: ${origin}`);
     return callback(new Error('Not allowed by CORS'));
   },
   credentials: true
