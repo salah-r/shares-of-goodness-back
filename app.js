@@ -32,16 +32,16 @@ const allowedOrigins = [
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) {
-      console.log("✅ CORS Allowed (No Origin)");
+      // console.log("✅ CORS Allowed (No Origin)");
       return callback(null, true);
     }
 
     if (allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
-      console.log(`✅ CORS Allowed for origin: ${origin}`);
+      // console.log(`✅ CORS Allowed for origin: ${origin}`);
       return callback(null, true);
     }
 
-    console.error(`❌ CORS Blocked Origin: ${origin}`);
+    // console.error(`❌ CORS Blocked Origin: ${origin}`);
     return callback(new Error('Not allowed by CORS'));
   },
   credentials: true
@@ -73,7 +73,7 @@ app.get('/health', (req, res) => {
 
 // Global Error Handler
 app.use((err, req, res, next) => {
-  console.error('❌ Global Server Error:', err.message);
+  // console.error('❌ Global Server Error:', err.message);
   res.status(err.status || 500).json({
     error: err.message || 'Internal Server Error'
   });
