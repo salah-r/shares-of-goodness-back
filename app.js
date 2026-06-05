@@ -61,7 +61,7 @@ app.use('/api/donations', donationRoutes);
 
 // Protected Admin Routes
 app.use('/api/admins', authMiddleware, adminRoutes);
-app.use('/api/wallets', authMiddleware, walletRoutes);
+app.use('/api/wallets', walletRoutes);
 
 // Root Check Endpoint
 app.get('/health', (req, res) => {
